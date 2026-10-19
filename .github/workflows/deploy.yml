@@ -45,6 +45,6 @@ jobs:
           fi
 
           git checkout --detach "$1"
-          docker compose up -d --build --wait
-          docker compose ps
+          docker-compose -f compose.yaml up -d --build --wait
+          docker-compose -f compose.yaml ps
           REMOTE
