@@ -26,6 +26,14 @@ async def lifespan(app):
 app = FastAPI(title='ZoomLens API', version='1.0.0', lifespan=lifespan)
 
 
+@app.middleware('http')
+async def revalidate_frontend(request: Request, call_next):
+    response = await call_next(request)
+    if not request.url.path.startswith('/api/'):
+        response.headers['Cache-Control'] = 'no-cache'
+    return response
+
+
 class CalculationRequest(BaseModel):
     document: dict[str, Any]
 

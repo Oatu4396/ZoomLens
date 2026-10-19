@@ -26,11 +26,14 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(self.client.get('/api/health').json()['status'], 'ok')
         page = self.client.get('/')
         self.assertEqual(page.status_code, 200)
+        self.assertEqual(page.headers['cache-control'], 'no-cache')
         self.assertIn('id="zoomTabButton"', page.text)
         self.assertIn('>Design</button>', page.text)
         self.assertNotIn('Design/Zoom', page.text)
         for url in ['/app.js', '/styles.css', '/shared/optics.js', '/shared/catalogs.js', '/shared/examples.js']:
-            self.assertEqual(self.client.get(url).status_code, 200, url)
+            response = self.client.get(url + '?v=4')
+            self.assertEqual(response.status_code, 200, url)
+            self.assertEqual(response.headers['cache-control'], 'no-cache')
         self.assertEqual(self.client.get('/backend/app.py').status_code, 404)
 
     def test_layout_and_invalid_document(self):
