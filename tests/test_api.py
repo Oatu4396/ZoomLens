@@ -31,7 +31,7 @@ class ApiTests(unittest.TestCase):
         self.assertIn('>Design</button>', page.text)
         self.assertNotIn('Design/Zoom', page.text)
         for url in ['/app.js', '/styles.css', '/shared/optics.js', '/shared/catalogs.js', '/shared/examples.js']:
-            response = self.client.get(url + '?v=5')
+            response = self.client.get(url + '?v=6')
             self.assertEqual(response.status_code, 200, url)
             self.assertEqual(response.headers['cache-control'], 'no-cache')
         self.assertEqual(self.client.get('/backend/app.py').status_code, 404)

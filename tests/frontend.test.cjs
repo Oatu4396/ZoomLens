@@ -51,7 +51,7 @@ test('browser uses API calculations, preserves library, and isolates Zoom tab', 
   const run = source => vm.runInContext(source, ctx);
   try {
     for (const file of ['shared/catalogs.js', 'shared/optics.js', 'shared/examples.js', 'frontend/app.js']) run(fs.readFileSync(path.join(root, file), 'utf8'));
-    run("buildRays=ensureZoomEnvelope=()=>{throw Error('Ray tracing and range scans must remain in the backend')}");
+    run("ensureZoomEnvelope=()=>{throw Error('Full-range scans must remain in the backend')}");
     async function waitFor(condition) {
       const deadline = Date.now() + 15000;
       while (!condition()) { if (Date.now() > deadline) throw Error('Timed out: ' + el('geometryStatus').textContent + ' ' + el('performanceStatus').textContent); await new Promise(resolve => setTimeout(resolve, 10)); }
@@ -82,11 +82,18 @@ test('browser uses API calculations, preserves library, and isolates Zoom tab', 
     assert.equal(el('lensDrawingPanel').parentElement,el('zoomDrawingSlot'));
     assert(el('eflPlot').innerHTML.includes('<'));
     assert(el('zoomEfl').textContent!=='—');
+    const beforeSlider=layoutRequests.length;
     run('updateZoom(.5);updateZoom(-1);updateZoom(-.25)');
     await waitFor(()=>run('layoutResult?.key===JSON.stringify(lensDocument(),encodeNumber)'));
     assert.equal(run('zoom'),-.25);
-    assert.equal(layoutRequests.at(-1).current_only, true);
+    assert.equal(layoutRequests.length,beforeSlider);
     assert(!requests.includes('/api/performance'));
+    run('surfaces[0].radius=55;renderAll()');
+    await waitFor(() => layoutRequests.length > beforeSlider);
+    run('updateZoom(-.75)');
+    await waitFor(() => run('layoutAnalysis?.key===envelopeInputKey() && layoutResult?.key===JSON.stringify(lensDocument(),encodeNumber)'));
+    assert.equal(run('zoom'),-.75);
+    assert.equal(layoutRequests.length,beforeSlider+1);
     el('performanceTabButton').listeners.click();
     await waitFor(() => !!run('performanceKey'));
     assert(requests.includes('/api/performance'));
