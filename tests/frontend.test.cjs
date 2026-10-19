@@ -14,7 +14,7 @@ test('browser uses API calculations, preserves library, and isolates Zoom tab', 
       value: '', innerHTML: '', textContent: '', checked: false,
       hidden: ['zoomTab', 'specificationTab', 'performanceTab', 'materialsTab'].includes(id),
       listeners: {}, attributes: {}, addEventListener(name, fn) { this.listeners[name] = fn; },
-      setAttribute(key, value) { this.attributes[key] = value; }, focus() {}, select() {},
+      setAttribute(key, value) { this.attributes[key] = value; }, appendChild(child) { child.parentElement = this; }, focus() {}, select() {},
       showModal() { this.open = true; }, close() { this.open = false; },
     });
     return elements.get(id);
@@ -67,12 +67,19 @@ test('browser uses API calculations, preserves library, and isolates Zoom tab', 
     el('zoomTabButton').listeners.click();
     assert(!el('zoomTab').hidden);
     assert(el('designTab').hidden);
+    assert.equal(el('lensDrawingPanel').parentElement,el('zoomDrawingSlot'));
+    assert(el('eflPlot').innerHTML.includes('<'));
+    assert(el('zoomEfl').textContent!=='—');
+    run('updateZoom(-.25)');
+    await waitFor(()=>run('layoutResult?.key===JSON.stringify(lensDocument(),encodeNumber)'));
+    assert.equal(run('zoom'),-.25);
     assert(!requests.includes('/api/performance'));
     el('performanceTabButton').listeners.click();
     await waitFor(() => !!run('performanceKey'));
     assert(requests.includes('/api/performance'));
     for (const id of ['fanT', 'fanS', 'fieldCurvaturePlot', 'distortionPlot', 'spotPlot', 'mtfPlot']) assert(el(id).innerHTML.includes('<'), id);
     el('designTabButton').listeners.click();
+    assert.equal(el('lensDrawingPanel').parentElement,el('designDrawingSlot'));
     el('newLens').listeners.click();
     await waitFor(() => run('layoutResult?.key===JSON.stringify(lensDocument(),encodeNumber)'));
     assert.equal(run('surfaces.length'), 2);

@@ -26,12 +26,14 @@ async function main() {
       const rays = buildRays();
       let rows = null;
       try { rows = firstOrderRows(opticalMatrices()); } catch {}
+      const zoomOptics = zoomOpticsValues();
       return {
         rays, firstOrder: rows, envelope: zoomEnvelope,
         autoSemis: [...autoSemis], autoClearSemis: [...autoClearSemis],
         semiAuto: surfaces.map(s => s.semiAuto),
         aperture: { epd: specs.epd, fnumber: specs.fnumber, na: specs.na },
-        vignetting: [...autoVignettingValues], focus: focusCurveValues()
+        vignetting: [...autoVignettingValues],
+        focus: zoomOptics.map(row => [row.position, row.focus]), zoomOptics
       };
     })()`, context);
     await emit(result);

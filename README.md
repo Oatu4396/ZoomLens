@@ -1,6 +1,6 @@
 # ZoomLens
 
-A lens-design workspace with Design, Zoom, Specification, Performance, and Materials tabs. Zoom controls and group motions have their own tab; the Design tab is the general lens editor.
+A lens-design workspace with Design, Specification, Performance, Zoom, and Materials tabs. The Design tab places lens data on the left and the lens drawing on the right. The Zoom tab includes the same interactive drawing, zoom controls, group motions, EFL/aperture trends, and focus curves.
 
 ## Run with Docker Compose
 
@@ -86,7 +86,13 @@ The interactive API schema is available at `/docs`.
 
 Performance calculations begin only when the Performance tab is opened. Maximum MTF frequency, frequency step, field selection, and plot pan/zoom operate on returned data without rerunning the engine.
 
-API numeric results preserve non-finite values using objects such as `{"$number":"Infinity"}`, `{"$number":"-Infinity"}`, and `{"$number":"NaN"}`. `encodeNumber`/`decodeNumber` in the shared engine handle these values. Normal JSON/device files retain the existing format.
+API numeric results preserve non-finite values using objects such as `{"$number":"Infinity"}`, `{"$number":"-Infinity"}`, and `{"$number":"NaN"}`. `encodeNumber`/`decodeNumber` in the shared engine handle these values. JSON/device files use version 3. Versions 1 and 2 remain importable.
+
+## Zoom coordinates
+
+The zoom coordinate runs from −1 to +1. Zero is the nominal prescription: group displacements are measured relative to that position. EFL and F/# are displayed at the current position and plotted over the range; specifying image-space NA switches the aperture readout and plot to NA. Dotted lines mark the nominal position and dashed lines mark the current position.
+
+Older 0–1 designs are mapped using `new = 2 * old - 1`. Their motion polynomials and lens thicknesses are rebased at the midpoint, preserving their physical zoom configurations. Imported CODE V zoom configurations use the same mapping. Zoom-dependent vignetting factors span the signed range as well. Auto apertures sample all 2,001 slider positions over −1…1. The EFL, aperture, and focus curves sample 201 positions plus the current position.
 
 ## Develop without Docker
 
@@ -108,6 +114,6 @@ node --test tests/*.test.cjs
 docker compose config --quiet
 ```
 
-`tests/fixtures.json` stores designs and SHA-256 result fingerprints generated from the pre-migration engine at commit `d23c75c`. The regressions cover blank and ideal paraxial lenses, PNP at three zoom positions, glass, a finite-conjugate asphere, IRG24, automatic vignetting, and image-space NA. Fingerprints round finite values to 10 significant digits and treat magnitudes below 1e-9 as zero to allow insignificant platform differences. Layout comparisons cover rays, aperture envelopes, and aperture specifications; performance comparisons cover all five stages' final data. Separate tests cover SEQ import, browser library operations, API routing, concurrency isolation, timeouts, cancellation, and lazy performance loading.
+`tests/fixtures.json` stores designs and SHA-256 result fingerprints generated from the pre-migration engine at commit `d23c75c`. The regressions cover blank and ideal paraxial lenses, PNP at three zoom positions, glass, a finite-conjugate asphere, IRG24, automatic vignetting, and image-space NA. Fingerprints round finite values to 10 significant digits and treat magnitudes below 1e-9 as zero to allow insignificant platform differences. Static-layout comparisons cover rays, aperture envelopes, and aperture specifications; moving-layout comparisons retain current-ray and aperture-specification checks while separately testing the signed-range envelope and legacy-coordinate conversion; performance comparisons cover all five stages' final data. Separate tests cover SEQ import, browser library operations, API routing, concurrency isolation, timeouts, cancellation, and lazy performance loading.
 
 GitHub Actions runs these checks and builds/starts the Compose service, then tests the frontend and both calculation endpoints inside the container.

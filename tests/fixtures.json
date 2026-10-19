@@ -176,7 +176,9 @@
       "zoom": 0
     },
     "layoutHash": "0742696a880ea7865bf1256b367551c9181827ff5b1b7e6c83a04b1cdcecabb3",
-    "performanceHash": null
+    "performanceHash": null,
+    "raysHash": "ef5a80f9d95c1a456006bed8d8b5c30b51c75359b3f1ff32e33908fae6bd86b6",
+    "apertureHash": "a9da3a0a6c26a56071043aff88068eb507f7aa2f21710bf8f26b7329d9014e6c"
   },
   {
     "name": "pnp-mid",
@@ -291,7 +293,9 @@
       "zoom": 0.5
     },
     "layoutHash": "4d75c9476eed033aaa951fae51fd784a248bf8c78f820198e16fc112f30ab47d",
-    "performanceHash": null
+    "performanceHash": null,
+    "raysHash": "6215e6874ba74e7435013dea000d5fb5da6af897f6a9a4576dcf11038f84315e",
+    "apertureHash": "a09f39860659d6adcb6571f0330330f1cc2add140f680d81011fbb934e041eab"
   },
   {
     "name": "pnp-tele",
@@ -406,7 +410,9 @@
       "zoom": 1
     },
     "layoutHash": "7463b5f545fb99e6726f97f6dc79dfe701c7aac0be44552ae1a3ce5a945e3568",
-    "performanceHash": null
+    "performanceHash": null,
+    "raysHash": "3cf227c2e78307a3027e1f50c27f94c63e244ddb4b3a27dd41f46eec7593bed7",
+    "apertureHash": "830bdcf82419fe8b350d430a8854f195f9454aacf73bd7e788844b327a4c705b"
   },
   {
     "name": "ideal",
