@@ -31,7 +31,7 @@ class ApiTests(unittest.TestCase):
         self.assertIn('>Design</button>', page.text)
         self.assertNotIn('Design/Zoom', page.text)
         for url in ['/app.js', '/styles.css', '/shared/optics.js', '/shared/catalogs.js', '/shared/examples.js']:
-            response = self.client.get(url + '?v=4')
+            response = self.client.get(url + '?v=5')
             self.assertEqual(response.status_code, 200, url)
             self.assertEqual(response.headers['cache-control'], 'no-cache')
         self.assertEqual(self.client.get('/backend/app.py').status_code, 404)
@@ -50,6 +50,18 @@ class ApiTests(unittest.TestCase):
         self.assertTrue(stages[-1]['data']['fields'][0]['waves'][0]['T'])
         response = self.client.post('/api/performance', json={'document': {}})
         self.assertIn('error', json.loads(response.text))
+
+    def test_progressive_layout_and_current_position(self):
+        for current_only, stages in [(False, ['current', 'complete']), (True, ['current'])]:
+            response = self.client.post('/api/layout', json={
+                'document': IDEAL, 'stream': True, 'current_only': current_only})
+            self.assertIn('application/x-ndjson', response.headers['content-type'])
+            records = [json.loads(line) for line in response.text.splitlines()]
+            self.assertEqual([row['stage'] for row in records], stages)
+            for row in records:
+                self.assertEqual(row['data']['firstOrder'][0][1], 50)
+                self.assertTrue(row['data']['rays']['rays'])
+            self.assertEqual(len(records[0]['data']['focus']), 1)
 
 
 class ProcessTests(unittest.IsolatedAsyncioTestCase):

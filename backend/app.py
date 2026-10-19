@@ -36,6 +36,8 @@ async def revalidate_frontend(request: Request, call_next):
 
 class CalculationRequest(BaseModel):
     document: dict[str, Any]
+    stream: bool = False
+    current_only: bool = False
 
 
 @app.get('/api/health')
@@ -45,6 +47,17 @@ async def health():
 
 @app.post('/api/layout')
 async def layout(body: CalculationRequest, request: Request):
+    if body.stream:
+        async def records():
+            try:
+                operation = 'layout-current' if body.current_only else 'layout-stream'
+                async for result in app.state.engine.stream(operation, body.document):
+                    yield json.dumps(result, separators=(',', ':')) + '\n'
+            except CalculationError as error:
+                yield json.dumps({'error': str(error)}) + '\n'
+
+        return StreamingResponse(records(), media_type='application/x-ndjson',
+                                 headers={'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no'})
     task = asyncio.create_task(app.state.engine.layout(body.document))
     try:
         while not task.done():

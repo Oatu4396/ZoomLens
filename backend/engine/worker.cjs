@@ -20,24 +20,36 @@ async function main() {
   for await (const chunk of process.stdin) input += chunk;
   context.payload = input;
   vm.runInContext('var request = JSON.parse(payload, decodeNumber); setLensDocument(request.document)', context);
-  if (process.argv[2] === 'layout') {
-    const result = vm.runInContext(`(() => {
-      ensureZoomEnvelope();
-      const rays = buildRays();
-      let rows = null;
-      try { rows = firstOrderRows(opticalMatrices()); } catch {}
-      const zoomOptics = zoomOpticsValues();
-      return {
-        rays, firstOrder: rows, envelope: zoomEnvelope,
-        autoSemis: [...autoSemis], autoClearSemis: [...autoClearSemis],
-        semiAuto: surfaces.map(s => s.semiAuto),
-        aperture: { epd: specs.epd, fnumber: specs.fnumber, na: specs.na },
-        vignetting: [...autoVignettingValues],
-        focus: zoomOptics.map(row => [row.position, row.focus]), zoomOptics
-      };
-    })()`, context);
-    await emit(result);
-  } else if (process.argv[2] === 'performance') {
+  const operation = process.argv[2];
+  if (['layout', 'layout-stream', 'layout-current'].includes(operation)) {
+    const stages = operation === 'layout-stream' ? [true, false] : [operation === 'layout-current'];
+    for (const current of stages) {
+      context.currentLayout = current;
+      const result = vm.runInContext(`(() => {
+        if (!currentLayout) ensureZoomEnvelope();
+        const rays = currentLayout ? currentZoomEnvelope() : buildRays();
+        let rows = null;
+        let sample = {position: zoom, efl: NaN, aperture: NaN, focus: NaN};
+        try {
+          const optics = opticalMatrices();
+          rows = firstOrderRows(optics);
+          sample = {position: zoom, efl: optics.efl,
+            aperture: specs.apertureMode === 'na' ? specs.na : specs.fnumber,
+            focus: optics.lastZ + optics.imageDistance - positions().at(-1)};
+        } catch {}
+        const zoomOptics = currentLayout ? [sample] : zoomOpticsValues();
+        return {
+          rays, firstOrder: rows, envelope: zoomEnvelope,
+          autoSemis: [...autoSemis], autoClearSemis: [...autoClearSemis],
+          semiAuto: surfaces.map(s => s.semiAuto),
+          aperture: { epd: specs.epd, fnumber: specs.fnumber, na: specs.na },
+          vignetting: [...autoVignettingValues],
+          focus: zoomOptics.map(row => [row.position, row.focus]), zoomOptics
+        };
+      })()`, context);
+      await emit(operation === 'layout' ? result : {stage: current ? 'current' : 'complete', data: result});
+    }
+  } else if (operation === 'performance') {
     const steps = vm.runInContext('ensureZoomEnvelope(); calculatePerformance()', context);
     for (const stage of steps) await emit(stage);
   } else {

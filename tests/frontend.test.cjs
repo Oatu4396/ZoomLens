@@ -8,7 +8,7 @@ const root = path.resolve(__dirname, '..');
 
 test('browser uses API calculations, preserves library, and isolates Zoom tab', async () => {
   const html = fs.readFileSync(path.join(root, 'frontend/index.html'), 'utf8');
-  const elements = new Map(), storage = new Map(), requests = [], pending = new Set();
+  const elements = new Map(), storage = new Map(), requests = [], layoutRequests = [], pending = new Set();
   function el(id) {
     if (!elements.has(id)) elements.set(id, {
       value: '', innerHTML: '', textContent: '', checked: false,
@@ -27,27 +27,31 @@ test('browser uses API calculations, preserves library, and isolates Zoom tab', 
     window: {}, setTimeout, clearTimeout, requestAnimationFrame: fn => setTimeout(fn, 0),
     fetch: async (url, options) => {
       requests.push(url);
-      const operation = url.endsWith('layout') ? 'layout' : 'performance';
+      const body = JSON.parse(options.body);
+      if (url.endsWith('layout')) layoutRequests.push(body);
+      const operation = url.endsWith('layout') ? body.stream ? body.current_only ? 'layout-current' : 'layout-stream' : 'layout' : 'performance';
       const child = spawn('node', [path.join(root, 'backend/engine/worker.cjs'), operation]);
       pending.add(child);
       child.stdin.end(options.body);
-      let stdout = '';
-      child.stdout.on('data', chunk => stdout += chunk);
       const abort = () => child.kill();
       options.signal.addEventListener('abort', abort);
-      await new Promise(resolve => child.once('close', resolve));
-      pending.delete(child);
-      options.signal.removeEventListener('abort', abort);
-      if (options.signal.aborted) throw Object.assign(Error('Aborted'), { name: 'AbortError' });
-      return { ok: true, text: async () => stdout, body: { getReader() { let sent = false; return {
-        async read() { if (sent) return { done: true }; sent = true; return { value: Buffer.from(stdout), done: false }; },
-        async cancel() {},
+      child.once('close', () => {
+        pending.delete(child);
+        options.signal.removeEventListener('abort', abort);
+      });
+      return { ok: true, body: { getReader() { const iterator = child.stdout[Symbol.asyncIterator](); return {
+        async read() {
+          if (options.signal.aborted) throw Object.assign(Error('Aborted'), { name: 'AbortError' });
+          return iterator.next();
+        },
+        async cancel() { child.kill(); },
       }; } } };
     },
   });
   const run = source => vm.runInContext(source, ctx);
   try {
     for (const file of ['shared/catalogs.js', 'shared/optics.js', 'shared/examples.js', 'frontend/app.js']) run(fs.readFileSync(path.join(root, file), 'utf8'));
+    run("buildRays=ensureZoomEnvelope=()=>{throw Error('Ray tracing and range scans must remain in the backend')}");
     async function waitFor(condition) {
       const deadline = Date.now() + 15000;
       while (!condition()) { if (Date.now() > deadline) throw Error('Timed out: ' + el('geometryStatus').textContent + ' ' + el('performanceStatus').textContent); await new Promise(resolve => setTimeout(resolve, 10)); }
@@ -58,6 +62,8 @@ test('browser uses API calculations, preserves library, and isolates Zoom tab', 
     assert.deepEqual([...new Set(requests)], ['/api/layout']);
     run('loadLensDocument(JSON.parse(JSON.stringify(pnpExample)))');
     await waitFor(() => run('layoutResult?.key===JSON.stringify(lensDocument(),encodeNumber)'));
+    assert(el('layout').innerHTML.includes('STO'));
+    await waitFor(() => run('layoutAnalysis?.key===envelopeInputKey()'));
     el('saveLens').listeners.click();
     el('lensNameInput').value = 'Saved PNP';
     el('lensNameForm').listeners.submit({ preventDefault() {} });
@@ -65,6 +71,7 @@ test('browser uses API calculations, preserves library, and isolates Zoom tab', 
     run('const savedDesign=JSON.parse(JSON.stringify(lensDocument())); specs.epd+=1; loadLensDocument(savedDesign)');
     await waitFor(() => run('layoutResult?.key===JSON.stringify(lensDocument(),encodeNumber)'));
     assert(run('zoomEnvelope!==null'));
+    await waitFor(() => run('layoutAnalysis?.key===envelopeInputKey()'));
     el('loadLens').listeners.click();
     assert(el('savedLensRows').innerHTML.indexOf('Saved PNP') < el('savedLensRows').innerHTML.indexOf('PNP example'));
     run('zoomEnvelope=null');
@@ -78,6 +85,7 @@ test('browser uses API calculations, preserves library, and isolates Zoom tab', 
     run('updateZoom(.5);updateZoom(-1);updateZoom(-.25)');
     await waitFor(()=>run('layoutResult?.key===JSON.stringify(lensDocument(),encodeNumber)'));
     assert.equal(run('zoom'),-.25);
+    assert.equal(layoutRequests.at(-1).current_only, true);
     assert(!requests.includes('/api/performance'));
     el('performanceTabButton').listeners.click();
     await waitFor(() => !!run('performanceKey'));

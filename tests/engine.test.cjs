@@ -59,6 +59,20 @@ test('SEQ import and saved-document round trip remain compatible', () => {
   assert(Number.isNaN(run('JSON.parse(JSON.stringify(NaN, encodeNumber), decodeNumber)')));
 });
 
+test('progressive backend layout preserves rays and completed full-range results', () => {
+  for (const name of ['pnp-mid', 'finite-asphere', 'auto-vignetting', 'image-na']) {
+    const document = fixtures.find(fixture => fixture.name === name).document;
+    const full = calculate('layout', document)[0];
+    const stream = calculate('layout-stream', document);
+    assert.deepEqual(stream.map(row => row.stage), ['current', 'complete']);
+    assert.equal(hash(stream[0].data.rays), hash(full.rays), name);
+    assert.equal(hash(stream[0].data.firstOrder), hash(full.firstOrder), name);
+    assert.equal(hash(stream[1].data), hash(full), name);
+    assert.equal(stream[0].data.zoomOptics.length, 1);
+    assert.equal(calculate('layout-current', document).length, 1);
+  }
+});
+
 test('signed zoom, optical trends, nominal marker data and state restoration', () => {
   const ctx = vm.createContext({ console });
   for (const file of ['catalogs.js', 'optics.js', 'examples.js']) vm.runInContext(fs.readFileSync(path.join(root, 'shared', file), 'utf8'), ctx);
