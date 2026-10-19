@@ -1,0 +1,870 @@
+[
+  {
+    "name": "blank",
+    "document": {
+      "format": "ZoomLens",
+      "version": 2,
+      "surfaces": [
+        {
+          "id": 1,
+          "type": "Sphere",
+          "stop": true,
+          "radius": 0,
+          "thickness": 0,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 0
+        },
+        {
+          "id": 2,
+          "type": "Image",
+          "stop": false,
+          "radius": 0,
+          "thickness": 0,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 0
+        }
+      ],
+      "groups": [],
+      "specifications": {
+        "conjugate": "infinite",
+        "objectDistance": 200,
+        "apertureMode": "epd",
+        "fnumber": 4,
+        "epd": 2,
+        "na": 0.1,
+        "fieldType": "angle",
+        "fields": [
+          0
+        ],
+        "wavelengths": [
+          486.13,
+          587.56,
+          656.27
+        ],
+        "referenceWavelengthIndex": 1,
+        "wavelengthPreset": "",
+        "autoVignetting": false,
+        "vignetting": [
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          }
+        ]
+      },
+      "customMaterials": [],
+      "zoom": 0
+    },
+    "layoutHash": "c692be79936cc2728afa962f69c81e4d9c4ec2d917bb20e8c871111fdfee07e5",
+    "performanceHash": null
+  },
+  {
+    "name": "pnp-wide",
+    "document": {
+      "format": "ZoomLens",
+      "version": 2,
+      "surfaces": [
+        {
+          "id": 1,
+          "type": "Paraxial",
+          "stop": true,
+          "radius": 50,
+          "thickness": 5,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 0,
+          "paraxialSolve": true
+        },
+        {
+          "id": 3,
+          "type": "Paraxial",
+          "stop": false,
+          "radius": -20,
+          "thickness": 20,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 1
+        },
+        {
+          "id": 4,
+          "type": "Paraxial",
+          "stop": false,
+          "radius": 20,
+          "thickness": 31.1111,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 2,
+          "paraxialSolve": false
+        },
+        {
+          "id": 2,
+          "type": "Image",
+          "stop": false,
+          "radius": 0,
+          "thickness": 0,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 0
+        }
+      ],
+      "groups": [
+        {
+          "id": 1,
+          "name": "N",
+          "mode": "polynomial",
+          "polynomial": "0.0000, 10.0000"
+        },
+        {
+          "id": 2,
+          "name": "P",
+          "mode": "polynomial",
+          "polynomial": "-0.0000160714, -1.6069710246, 0.8008832720, 0.8987503743, 0.1332911550, 0.5416266867, -0.6562878610, 0.1753477729"
+        }
+      ],
+      "specifications": {
+        "conjugate": "infinite",
+        "objectDistance": 200,
+        "apertureMode": "epd",
+        "fnumber": 2.2222232142843934,
+        "epd": 10,
+        "na": 0.21951210184761963,
+        "fieldType": "imageHeight",
+        "fields": [
+          0,
+          2.5,
+          5
+        ],
+        "wavelengths": [
+          486.13,
+          587.56,
+          656.27
+        ],
+        "referenceWavelengthIndex": 1,
+        "wavelengthPreset": "",
+        "autoVignetting": false,
+        "vignetting": [
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          },
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          },
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          }
+        ]
+      },
+      "customMaterials": [],
+      "zoom": 0
+    },
+    "layoutHash": "0742696a880ea7865bf1256b367551c9181827ff5b1b7e6c83a04b1cdcecabb3",
+    "performanceHash": null
+  },
+  {
+    "name": "pnp-mid",
+    "document": {
+      "format": "ZoomLens",
+      "version": 2,
+      "surfaces": [
+        {
+          "id": 1,
+          "type": "Paraxial",
+          "stop": true,
+          "radius": 50,
+          "thickness": 5,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 0,
+          "paraxialSolve": true
+        },
+        {
+          "id": 3,
+          "type": "Paraxial",
+          "stop": false,
+          "radius": -20,
+          "thickness": 20,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 1
+        },
+        {
+          "id": 4,
+          "type": "Paraxial",
+          "stop": false,
+          "radius": 20,
+          "thickness": 31.1111,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 2,
+          "paraxialSolve": false
+        },
+        {
+          "id": 2,
+          "type": "Image",
+          "stop": false,
+          "radius": 0,
+          "thickness": 0,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 0
+        }
+      ],
+      "groups": [
+        {
+          "id": 1,
+          "name": "N",
+          "mode": "polynomial",
+          "polynomial": "0.0000, 10.0000"
+        },
+        {
+          "id": 2,
+          "name": "P",
+          "mode": "polynomial",
+          "polynomial": "-0.0000160714, -1.6069710246, 0.8008832720, 0.8987503743, 0.1332911550, 0.5416266867, -0.6562878610, 0.1753477729"
+        }
+      ],
+      "specifications": {
+        "conjugate": "infinite",
+        "objectDistance": 200,
+        "apertureMode": "epd",
+        "fnumber": 2.2222232142843934,
+        "epd": 10,
+        "na": 0.21951210184761963,
+        "fieldType": "imageHeight",
+        "fields": [
+          0,
+          2.5,
+          5
+        ],
+        "wavelengths": [
+          486.13,
+          587.56,
+          656.27
+        ],
+        "referenceWavelengthIndex": 1,
+        "wavelengthPreset": "",
+        "autoVignetting": false,
+        "vignetting": [
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          },
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          },
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          }
+        ]
+      },
+      "customMaterials": [],
+      "zoom": 0.5
+    },
+    "layoutHash": "4d75c9476eed033aaa951fae51fd784a248bf8c78f820198e16fc112f30ab47d",
+    "performanceHash": null
+  },
+  {
+    "name": "pnp-tele",
+    "document": {
+      "format": "ZoomLens",
+      "version": 2,
+      "surfaces": [
+        {
+          "id": 1,
+          "type": "Paraxial",
+          "stop": true,
+          "radius": 50,
+          "thickness": 5,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 0,
+          "paraxialSolve": true
+        },
+        {
+          "id": 3,
+          "type": "Paraxial",
+          "stop": false,
+          "radius": -20,
+          "thickness": 20,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 1
+        },
+        {
+          "id": 4,
+          "type": "Paraxial",
+          "stop": false,
+          "radius": 20,
+          "thickness": 31.1111,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 2,
+          "paraxialSolve": false
+        },
+        {
+          "id": 2,
+          "type": "Image",
+          "stop": false,
+          "radius": 0,
+          "thickness": 0,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 0
+        }
+      ],
+      "groups": [
+        {
+          "id": 1,
+          "name": "N",
+          "mode": "polynomial",
+          "polynomial": "0.0000, 10.0000"
+        },
+        {
+          "id": 2,
+          "name": "P",
+          "mode": "polynomial",
+          "polynomial": "-0.0000160714, -1.6069710246, 0.8008832720, 0.8987503743, 0.1332911550, 0.5416266867, -0.6562878610, 0.1753477729"
+        }
+      ],
+      "specifications": {
+        "conjugate": "infinite",
+        "objectDistance": 200,
+        "apertureMode": "epd",
+        "fnumber": 2.2222232142843934,
+        "epd": 10,
+        "na": 0.21951210184761963,
+        "fieldType": "imageHeight",
+        "fields": [
+          0,
+          2.5,
+          5
+        ],
+        "wavelengths": [
+          486.13,
+          587.56,
+          656.27
+        ],
+        "referenceWavelengthIndex": 1,
+        "wavelengthPreset": "",
+        "autoVignetting": false,
+        "vignetting": [
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          },
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          },
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          }
+        ]
+      },
+      "customMaterials": [],
+      "zoom": 1
+    },
+    "layoutHash": "7463b5f545fb99e6726f97f6dc79dfe701c7aac0be44552ae1a3ce5a945e3568",
+    "performanceHash": null
+  },
+  {
+    "name": "ideal",
+    "document": {
+      "format": "ZoomLens",
+      "version": 2,
+      "surfaces": [
+        {
+          "id": 1,
+          "type": "Paraxial",
+          "stop": true,
+          "radius": 50,
+          "thickness": 50,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 0
+        },
+        {
+          "id": 2,
+          "type": "Image",
+          "stop": false,
+          "radius": 0,
+          "thickness": 0,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 0
+        }
+      ],
+      "groups": [],
+      "specifications": {
+        "conjugate": "infinite",
+        "objectDistance": 200,
+        "apertureMode": "epd",
+        "fnumber": 4,
+        "epd": 10,
+        "na": 0.1,
+        "fieldType": "angle",
+        "fields": [
+          0
+        ],
+        "wavelengths": [
+          587.5618
+        ],
+        "referenceWavelengthIndex": 0,
+        "wavelengthPreset": "",
+        "autoVignetting": false,
+        "vignetting": [
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          }
+        ]
+      },
+      "customMaterials": [],
+      "zoom": 0
+    },
+    "layoutHash": "9ce8f7a632d0270593fd8303d4dcff512fd2037819919dafda6facf9295a51f6",
+    "performanceHash": "66a821da42478b0fa27826df0b6b1829c8a8bfa85cba220524070006a8524b67"
+  },
+  {
+    "name": "glass",
+    "document": {
+      "format": "ZoomLens",
+      "version": 2,
+      "surfaces": [
+        {
+          "id": 1,
+          "type": "Sphere",
+          "stop": true,
+          "radius": 30,
+          "thickness": 5,
+          "material": "N-BK7",
+          "semi": 8,
+          "semiAuto": true,
+          "group": 0
+        },
+        {
+          "id": 2,
+          "type": "Sphere",
+          "stop": false,
+          "radius": -30,
+          "thickness": 40,
+          "material": "AIR",
+          "semi": 8,
+          "semiAuto": true,
+          "group": 0,
+          "paraxialSolve": true,
+          "defocus": 0.2
+        },
+        {
+          "id": 3,
+          "type": "Image",
+          "stop": false,
+          "radius": 0,
+          "thickness": 0,
+          "material": "AIR",
+          "semi": 8,
+          "semiAuto": true,
+          "group": 0
+        }
+      ],
+      "groups": [],
+      "specifications": {
+        "conjugate": "infinite",
+        "objectDistance": 200,
+        "apertureMode": "epd",
+        "fnumber": 4,
+        "epd": 4,
+        "na": 0.1,
+        "fieldType": "angle",
+        "fields": [
+          0,
+          3
+        ],
+        "wavelengths": [
+          587.5618
+        ],
+        "referenceWavelengthIndex": 0,
+        "wavelengthPreset": "",
+        "autoVignetting": false,
+        "vignetting": [
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          },
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          }
+        ]
+      },
+      "customMaterials": [],
+      "zoom": 0
+    },
+    "layoutHash": "bb1bf232272a05ab94f09a956d5b9106c2c4026a12fbb8e47c0e11b0215c5815",
+    "performanceHash": "ac124c3a9a181036586a96109ac736a6a619276fbc80ed59c9fd4a84b94bb415"
+  },
+  {
+    "name": "finite-asphere",
+    "document": {
+      "format": "ZoomLens",
+      "version": 2,
+      "surfaces": [
+        {
+          "id": 1,
+          "type": "Asphere",
+          "stop": true,
+          "radius": 30,
+          "thickness": 5,
+          "material": "N-BK7",
+          "semi": 8,
+          "semiAuto": true,
+          "group": 0,
+          "conic": -0.4,
+          "asphere": {
+            "4": 0.000001,
+            "6": -1e-10
+          }
+        },
+        {
+          "id": 2,
+          "type": "Sphere",
+          "stop": false,
+          "radius": -30,
+          "thickness": 40,
+          "material": "AIR",
+          "semi": 8,
+          "semiAuto": true,
+          "group": 0,
+          "paraxialSolve": true,
+          "defocus": 0.2
+        },
+        {
+          "id": 3,
+          "type": "Image",
+          "stop": false,
+          "radius": 0,
+          "thickness": 0,
+          "material": "AIR",
+          "semi": 8,
+          "semiAuto": true,
+          "group": 0
+        }
+      ],
+      "groups": [],
+      "specifications": {
+        "conjugate": "finite",
+        "objectDistance": 200,
+        "apertureMode": "epd",
+        "fnumber": 4,
+        "epd": 4,
+        "na": 0.1,
+        "fieldType": "objectHeight",
+        "fields": [
+          0,
+          3
+        ],
+        "wavelengths": [
+          587.5618
+        ],
+        "referenceWavelengthIndex": 0,
+        "wavelengthPreset": "",
+        "autoVignetting": false,
+        "vignetting": [
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          },
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          }
+        ]
+      },
+      "customMaterials": [],
+      "zoom": 0
+    },
+    "layoutHash": "cbf7cf90b86b9a7d17bc58bf31d425a29ca3bee75f427200fc058d2e00003ecf",
+    "performanceHash": "6e0b52349115e33d3f02688b14acb7ca8181910dde1f9aa77b4d030ef51e6abd"
+  },
+  {
+    "name": "irg24",
+    "document": {
+      "format": "ZoomLens",
+      "version": 2,
+      "surfaces": [
+        {
+          "id": 1,
+          "type": "Sphere",
+          "stop": true,
+          "radius": 30,
+          "thickness": 5,
+          "material": "IRG24",
+          "semi": 8,
+          "semiAuto": true,
+          "group": 0
+        },
+        {
+          "id": 2,
+          "type": "Sphere",
+          "stop": false,
+          "radius": -30,
+          "thickness": 40,
+          "material": "AIR",
+          "semi": 8,
+          "semiAuto": true,
+          "group": 0,
+          "paraxialSolve": true,
+          "defocus": 0.2
+        },
+        {
+          "id": 3,
+          "type": "Image",
+          "stop": false,
+          "radius": 0,
+          "thickness": 0,
+          "material": "AIR",
+          "semi": 8,
+          "semiAuto": true,
+          "group": 0
+        }
+      ],
+      "groups": [],
+      "specifications": {
+        "conjugate": "infinite",
+        "objectDistance": 200,
+        "apertureMode": "epd",
+        "fnumber": 4,
+        "epd": 4,
+        "na": 0.1,
+        "fieldType": "angle",
+        "fields": [
+          0,
+          3
+        ],
+        "wavelengths": [
+          8000,
+          10000,
+          12000
+        ],
+        "referenceWavelengthIndex": 1,
+        "wavelengthPreset": "",
+        "autoVignetting": false,
+        "vignetting": [
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          },
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          }
+        ]
+      },
+      "customMaterials": [],
+      "zoom": 0
+    },
+    "layoutHash": "eab9073d8a4e783097b0e3adb852d9dfb61a82ce4c3ceec25c864f636a410c02",
+    "performanceHash": "2a97bef3813ab56f13b4a3020490a8d9fca73c6d0ac454c6a0206abdab999a1c"
+  },
+  {
+    "name": "auto-vignetting",
+    "document": {
+      "format": "ZoomLens",
+      "version": 2,
+      "surfaces": [
+        {
+          "id": 1,
+          "type": "Sphere",
+          "stop": true,
+          "radius": 30,
+          "thickness": 5,
+          "material": "N-BK7",
+          "semi": 8,
+          "semiAuto": true,
+          "group": 0
+        },
+        {
+          "id": 2,
+          "type": "Sphere",
+          "stop": false,
+          "radius": -30,
+          "thickness": 40,
+          "material": "AIR",
+          "semi": 1.5,
+          "semiAuto": false,
+          "group": 0,
+          "paraxialSolve": true,
+          "defocus": 0.2
+        },
+        {
+          "id": 3,
+          "type": "Image",
+          "stop": false,
+          "radius": 0,
+          "thickness": 0,
+          "material": "AIR",
+          "semi": 8,
+          "semiAuto": true,
+          "group": 0
+        }
+      ],
+      "groups": [],
+      "specifications": {
+        "conjugate": "infinite",
+        "objectDistance": 200,
+        "apertureMode": "epd",
+        "fnumber": 4,
+        "epd": 4,
+        "na": 0.1,
+        "fieldType": "angle",
+        "fields": [
+          0,
+          3
+        ],
+        "wavelengths": [
+          587.5618
+        ],
+        "referenceWavelengthIndex": 0,
+        "wavelengthPreset": "",
+        "autoVignetting": true,
+        "vignetting": [
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          },
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          }
+        ]
+      },
+      "customMaterials": [],
+      "zoom": 0
+    },
+    "layoutHash": "342cc4673a28f389bf93fe66be2289c4976e1acd7992b7b15cbcbd6c274251fb",
+    "performanceHash": "d7a3ce361a7eb2896f46dcb7908d04d3bdd2fc958e41c894ede18c9876a7c129"
+  },
+  {
+    "name": "image-na",
+    "document": {
+      "format": "ZoomLens",
+      "version": 2,
+      "surfaces": [
+        {
+          "id": 1,
+          "type": "Paraxial",
+          "stop": true,
+          "radius": 50,
+          "thickness": 50,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 0
+        },
+        {
+          "id": 2,
+          "type": "Image",
+          "stop": false,
+          "radius": 0,
+          "thickness": 0,
+          "material": "AIR",
+          "semi": 10,
+          "semiAuto": true,
+          "group": 0
+        }
+      ],
+      "groups": [],
+      "specifications": {
+        "conjugate": "infinite",
+        "objectDistance": 200,
+        "apertureMode": "na",
+        "fnumber": 4,
+        "epd": 10,
+        "na": 0.1,
+        "fieldType": "angle",
+        "fields": [
+          0
+        ],
+        "wavelengths": [
+          587.5618
+        ],
+        "referenceWavelengthIndex": 0,
+        "wavelengthPreset": "",
+        "autoVignetting": false,
+        "vignetting": [
+          {
+            "vux": 0,
+            "vlx": 0,
+            "vuy": 0,
+            "vly": 0
+          }
+        ]
+      },
+      "customMaterials": [],
+      "zoom": 0
+    },
+    "layoutHash": "2baf343f46566cd7a5b99c3e7ef01b45701d4bd62dec1c3ced469c21b712842a",
+    "performanceHash": null
+  }
+]

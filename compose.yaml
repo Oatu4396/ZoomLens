@@ -1,0 +1,16 @@
+services:
+  zoomlens:
+    build: .
+    ports:
+      - "${PORT:-8080}:8000"
+    environment:
+      ZOOMLENS_WORKERS: "${ZOOMLENS_WORKERS:-2}"
+      ZOOMLENS_TIMEOUT: "${ZOOMLENS_TIMEOUT:-120}"
+    init: true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
