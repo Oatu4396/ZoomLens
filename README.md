@@ -86,7 +86,7 @@ The interactive API schema is available at `/docs`.
 
 Prescription edits use the backend layout stream. Zoom slider and set-position changes trace the current rays and update the drawing, first-order data, aperture readouts, and curve markers in the frontend, once per animation frame, without a server request. They reuse the completed full-range apertures and curves. Before that scan finishes, the drawing uses the current-position ray envelope. The full-range scan and performance analyses remain in the backend; changing the prescription, motion polynomials, or specifications invalidates the range result.
 
-Performance calculations begin only when the Performance tab is opened. Maximum MTF frequency, frequency step, field selection, and plot pan/zoom operate on returned data without rerunning the engine.
+Performance calculations begin only when the Performance tab is opened. Ray aberration and spot diagrams show all fields, with on axis at the bottom and edge field at the top. Ray fans show each wavelength, with tangential fans on the left and positive-half sagittal fans on the right. Field curves appear to the left of distortion. Maximum MTF frequency, frequency step, and plot pan/zoom operate on returned data without rerunning the engine.
 
 API numeric results preserve non-finite values using objects such as `{"$number":"Infinity"}`, `{"$number":"-Infinity"}`, and `{"$number":"NaN"}`. `encodeNumber`/`decodeNumber` in the shared engine handle these values. JSON/device files use version 3. Versions 1 and 2 remain importable.
 

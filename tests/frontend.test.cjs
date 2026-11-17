@@ -97,7 +97,21 @@ test('browser uses API calculations, preserves library, and isolates Zoom tab', 
     el('performanceTabButton').listeners.click();
     await waitFor(() => !!run('performanceKey'));
     assert(requests.includes('/api/performance'));
-    for (const id of ['fanT', 'fanS', 'fieldCurvaturePlot', 'distortionPlot', 'spotPlot', 'mtfPlot']) assert(el(id).innerHTML.includes('<'), id);
+    for (const id of ['fieldCurvaturePlot', 'distortionPlot', 'mtfPlot']) assert(el(id).innerHTML.includes('<'), id);
+    const fieldLabels = [...run('specs.fields')].sort((a,b)=>Math.abs(b)-Math.abs(a)).map(value=>value===0?'On axis':run(`performanceFieldLabel(${value})`));
+    for (const id of ['rayFanPlots','spotPlots']) assert.deepEqual([...el(id).innerHTML.matchAll(/<h4>(.*?)<\/h4>/g)].map(match=>match[1]),fieldLabels);
+    for (let i=0;i<fieldLabels.length;i++) {
+      assert(el(`spotPlot${i}`).innerHTML.includes('<circle'));
+      assert.equal(el(`fanT${i}`).coordinateAxes.xmin,-1);
+      assert.equal(el(`fanT${i}`).coordinateAxes.xmax,1);
+      assert.equal(el(`fanS${i}`).coordinateAxes.xmin,0);
+      assert.equal(el(`fanS${i}`).coordinateAxes.xmax,1);
+      for (const color of run('specs.wavelengths.map((_,i)=>wavelengthColor(i))')) {
+        assert(el(`fanT${i}`).innerHTML.includes(`stroke="${color}"`));
+        assert(el(`fanS${i}`).innerHTML.includes(`stroke="${color}"`));
+      }
+    }
+    assert.equal(el('fanWavelengthLegend').innerHTML,run('performanceWavelengthLegend()'));
     el('designTabButton').listeners.click();
     assert.equal(el('lensDrawingPanel').parentElement,el('designDrawingSlot'));
     el('newLens').listeners.click();

@@ -41,7 +41,12 @@ for (const fixture of fixtures) {
   if (fixture.performanceHash) test(`pre-migration performance: ${fixture.name}`, () => {
     const stages = calculate('performance', fixture.document);
     assert.deepEqual(stages.map(stage => stage.stage), ['coefficients', 'fans', 'field', 'spot', 'mtf']);
-    assert.equal(hash(stages.at(-1).data), fixture.performanceHash);
+    const data = stages.at(-1).data;
+    for (const field of data.fields) for (const wave of field.waves) if (wave.waveIndex !== fixture.document.specifications.referenceWavelengthIndex) {
+      wave.fanT = [];
+      wave.fanS = [];
+    }
+    assert.equal(hash(data), fixture.performanceHash);
   });
 }
 
@@ -115,4 +120,26 @@ test('legacy motion range maps to signed coordinates without changing physical z
     const saved=run('JSON.stringify(lensDocument())');assert.equal(JSON.parse(saved).version,3);
     run('setLensDocument(JSON.parse(JSON.stringify(lensDocument())))');assert.equal(run('JSON.stringify(lensDocument())'),saved);
   }
+});
+
+test('ray fans trace every field and wavelength against the reference chief ray', () => {
+  const document = structuredClone(fixtures.find(fixture => fixture.name === 'glass').document);
+  document.specifications.wavelengths = [486.13, 587.5618, 656.27];
+  document.specifications.referenceWavelengthIndex = 1;
+  const fans = calculate('performance', document).find(stage => stage.stage === 'fans').data.fields;
+  assert.deepEqual(fans.map(field=>field.value), document.specifications.fields);
+  for (const field of fans) {
+    assert.deepEqual(field.waves.map(wave=>wave.wavelength), document.specifications.wavelengths);
+    for (const wave of field.waves) for (const axis of ['fanT','fanS']) {
+      assert.equal(wave[axis].length,41);
+      assert.equal(wave[axis][0][0],-1);
+      assert.equal(wave[axis].at(-1)[0],1);
+      assert(wave[axis].every(point=>point.every(Number.isFinite)));
+    }
+    assert.notDeepEqual(field.waves[0].fanT,field.waves[1].fanT);
+    assert.notDeepEqual(field.waves[1].fanS,field.waves[2].fanS);
+  }
+  const edge = fans.at(-1).waves;
+  assert(Math.abs(edge[1].fanT[20][1])<1e-9);
+  assert(Math.abs(edge[0].fanT[20][1])>1e-3);
 });
